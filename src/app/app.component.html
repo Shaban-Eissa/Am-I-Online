@@ -2,7 +2,7 @@
   <!-- Header -->
   <header class="fixed top-4 left-4 right-4 z-50 md:mx-12">
     <div
-      class="bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-2xl shadow-black/50 mx-auto px-4 py-4 flex items-center justify-between relative overflow-hidden"
+      class="bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-2xl shadow-black/50 mx-auto md:px-4 md:py-4 px-2 py-2 flex items-center justify-between relative overflow-hidden"
     >
       <div
         class="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/5 via-white/10 to-white/5 opacity-50"
@@ -142,22 +142,6 @@
               </svg>
             </div>
           </a>
-
-          <button
-            class="md:hidden group relative p-2.5 text-white bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-300 border border-white/10 hover:border-white/20"
-          >
-            <div class="flex flex-col gap-1.5">
-              <div
-                class="w-5 h-0.5 bg-white transition-all duration-300 group-hover:bg-white/80"
-              ></div>
-              <div
-                class="w-5 h-0.5 bg-white transition-all duration-300 group-hover:bg-white/80"
-              ></div>
-              <div
-                class="w-5 h-0.5 bg-white transition-all duration-300 group-hover:bg-white/80"
-              ></div>
-            </div>
-          </button>
         </div>
       </div>
     </div>
@@ -682,7 +666,10 @@
   <div class="divider-top"></div>
 
   <!-- Analytics Section -->
-  <section id="analytics" class="py-16 relative overflow-hidden rounded-t-4xl md:mx-16">
+  <section
+    id="analytics"
+    class="py-16 relative overflow-hidden rounded-t-4xl md:mx-16"
+  >
     <div
       class="absolute inset-0"
       style="
@@ -757,10 +744,10 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-black/50 border-t border-white/10 md:mx-12">
+  <footer class="relative bg-black/50 md:mx-12">
     <div class="container mx-auto px-4 py-8">
       <div
-        class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6"
+        class="bg-white/5 rounded-2xl p-6"
       >
         <div
           class="flex flex-col md:flex-row items-center justify-between gap-4"
