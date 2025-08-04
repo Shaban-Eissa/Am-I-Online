@@ -35,25 +35,77 @@ export class ConnectivityService {
   #endpoints: ConnectivityEndpoint[] = [
     {
       name: 'Google',
-      url: 'http://google.com/generate_204',
+      url: 'https://google.com/generate_204',
       expectedStatus: [200, 204],
       timeout: 3000
     },
     {
       name: 'Cloudflare',
-      url: 'http://cp.cloudflare.com/generate_204',
+      url: 'https://cp.cloudflare.com/generate_204',
       expectedStatus: [200, 204],
       timeout: 3000
     },
     {
       name: 'Microsoft',
-      url: 'http://edge-http.microsoft.com/captiveportal/generate_204',
+      url: 'https://edge-http.microsoft.com/captiveportal/generate_204',
       expectedStatus: [200, 204],
       timeout: 3000
     },
     {
       name: 'Ubuntu',
+      url: 'https://connectivity-check.ubuntu.com',
+      expectedStatus: [200],
+      timeout: 3000
+    },
+    {
+      name: 'Apple',
+      url: 'https://captive.apple.com/hotspot-detect.html',
+      expectedStatus: [200],
+      timeout: 3000
+    },
+    {
+      name: 'Mozilla',
+      url: 'https://detectportal.firefox.com/success.txt',
+      expectedStatus: [200],
+      timeout: 3000
+    }
+  ];
+
+  // Fallback HTTP endpoints for environments that don't support HTTPS
+  #fallbackEndpoints: ConnectivityEndpoint[] = [
+    {
+      name: 'Google (HTTP)',
+      url: 'http://google.com/generate_204',
+      expectedStatus: [200, 204],
+      timeout: 3000
+    },
+    {
+      name: 'Cloudflare (HTTP)',
+      url: 'http://cp.cloudflare.com/generate_204',
+      expectedStatus: [200, 204],
+      timeout: 3000
+    },
+    {
+      name: 'Microsoft (HTTP)',
+      url: 'http://edge-http.microsoft.com/captiveportal/generate_204',
+      expectedStatus: [200, 204],
+      timeout: 3000
+    },
+    {
+      name: 'Ubuntu (HTTP)',
       url: 'http://connectivity-check.ubuntu.com',
+      expectedStatus: [200],
+      timeout: 3000
+    },
+    {
+      name: 'Apple (HTTP)',
+      url: 'http://captive.apple.com/hotspot-detect.html',
+      expectedStatus: [200],
+      timeout: 3000
+    },
+    {
+      name: 'Mozilla (HTTP)',
+      url: 'http://detectportal.firefox.com/success.txt',
       expectedStatus: [200],
       timeout: 3000
     }
@@ -139,7 +191,48 @@ export class ConnectivityService {
 
     const startTime = performance.now();
 
-    for (const endpoint of this.#endpoints) {
+    // First try HTTPS endpoints
+    const httpsResult = await this.tryEndpoints(this.#endpoints, startTime);
+    if (httpsResult.isOnline) {
+      return httpsResult;
+    }
+
+    // If HTTPS endpoints failed, try HTTP fallbacks (only in development or if explicitly allowed)
+    if (this.shouldTryHttpFallback()) {
+      console.log('HTTPS endpoints failed, trying HTTP fallbacks...');
+      const httpResult = await this.tryEndpoints(this.#fallbackEndpoints, startTime);
+      if (httpResult.isOnline) {
+        return httpResult;
+      }
+    }
+
+    // If all endpoints failed
+    this.#isOnline.set(false);
+    this.#lastChecked.set(new Date());
+    this.#responseTime.set(null);
+    this.#error.set('All connectivity endpoints failed');
+    this.#isChecking.set(false);
+
+    // Add failed connection to history
+    this.addToHistory({
+      timestamp: new Date(),
+      isOnline: false,
+      responseTime: null,
+      endpoint: null,
+      error: 'All connectivity endpoints failed'
+    });
+
+    return {
+      isOnline: false,
+      lastChecked: new Date(),
+      responseTime: null,
+      endpoint: null,
+      error: 'All connectivity endpoints failed'
+    };
+  }
+
+  private async tryEndpoints(endpoints: ConnectivityEndpoint[], startTime: number): Promise<ConnectivityStatus> {
+    for (const endpoint of endpoints) {
       try {
         this.#currentEndpoint.set(endpoint.name);
 
@@ -177,29 +270,20 @@ export class ConnectivityService {
       }
     }
 
-    // If all endpoints failed
-    this.#isOnline.set(false);
-    this.#lastChecked.set(new Date());
-    this.#responseTime.set(null);
-    this.#error.set('All connectivity endpoints failed');
-    this.#isChecking.set(false);
-
-    // Add failed connection to history
-    this.addToHistory({
-      timestamp: new Date(),
-      isOnline: false,
-      responseTime: null,
-      endpoint: null,
-      error: 'All connectivity endpoints failed'
-    });
-
     return {
       isOnline: false,
       lastChecked: new Date(),
       responseTime: null,
       endpoint: null,
-      error: 'All connectivity endpoints failed'
+      error: 'All endpoints failed'
     };
+  }
+
+  private shouldTryHttpFallback(): boolean {
+    // Only try HTTP fallbacks in development or if we're not on HTTPS
+    return window.location.protocol === 'http:' ||
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
   }
 
   updateResponseTimeTracking(responseTime: number): void {
@@ -262,6 +346,7 @@ export class ConnectivityService {
 
   // Get available endpoints for UI display
   getEndpoints(): ConnectivityEndpoint[] {
+    // Return HTTPS endpoints by default for production
     return [...this.#endpoints];
   }
 
@@ -275,7 +360,34 @@ export class ConnectivityService {
     const current = this.#currentEndpoint();
     if (!current) return { protocol: 'N/A', port: 'N/A' };
 
+    // Check if current endpoint is from HTTPS or HTTP list
+    const isHttpsEndpoint = this.#endpoints.some(ep => ep.name === current);
+    const isHttpEndpoint = this.#fallbackEndpoints.some(ep => ep.name === current);
+
+    if (isHttpsEndpoint) {
+      return { protocol: 'HTTPS', port: '443' };
+    } else if (isHttpEndpoint) {
+      return { protocol: 'HTTP', port: '80' };
+    }
+
     // Default to HTTPS/443 for most endpoints
     return { protocol: 'HTTPS', port: '443' };
+  }
+
+  // Get environment information for debugging
+  getEnvironmentInfo(): {
+    protocol: string;
+    hostname: string;
+    isHttps: boolean;
+    isLocalhost: boolean;
+    supportsHttpFallback: boolean;
+  } {
+    return {
+      protocol: window.location.protocol,
+      hostname: window.location.hostname,
+      isHttps: window.location.protocol === 'https:',
+      isLocalhost: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1',
+      supportsHttpFallback: this.shouldTryHttpFallback()
+    };
   }
 }
