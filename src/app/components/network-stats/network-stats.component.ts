@@ -108,7 +108,6 @@ export class NetworkStatsComponent {
   });
 
   constructor() {
-    // Watch for status changes and update history using effect
     effect(() => {
       const status = this.#connectivityService.status();
       const record: ConnectionRecord = {

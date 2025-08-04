@@ -18,8 +18,6 @@ export class ConnectivityStatusComponent {
   readonly currentEndpoint = this.#connectivityService.currentEndpoint;
   readonly error = this.#connectivityService.error;
   readonly isChecking = this.#connectivityService.isChecking;
-
-  // Real data signals for statistics
   readonly totalChecks = this.#connectivityService.totalChecks;
   readonly successfulChecks = this.#connectivityService.successfulChecks;
   readonly uptimePercentage = this.#connectivityService.uptimePercentage;

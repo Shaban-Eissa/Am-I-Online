@@ -1,5 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { signal, computed } from '@angular/core';
 import { timer } from 'rxjs';
 
@@ -111,7 +110,6 @@ export class ConnectivityService {
     }
   ];
 
-  // Signals for reactive state management
   #isOnline = signal<boolean>(navigator.onLine);
   #lastChecked = signal<Date | null>(null);
   #responseTime = signal<number | null>(null);
@@ -137,7 +135,6 @@ export class ConnectivityService {
   readonly minResponseTime = this.#minResponseTime.asReadonly();
   readonly maxResponseTime = this.#maxResponseTime.asReadonly();
 
-  // Computed signals for statistics
   readonly uptimePercentage = computed(() => {
     const total = this.#totalChecks();
     const successful = this.#successfulChecks();
@@ -157,7 +154,6 @@ export class ConnectivityService {
     return Math.round(total / onlineRecords.length);
   });
 
-  // Computed signal for overall status
   readonly status = computed(() => ({
     isOnline: this.#isOnline(),
     lastChecked: this.#lastChecked(),
@@ -240,7 +236,6 @@ export class ConnectivityService {
         const endTime = performance.now();
         const responseTime = Math.round(endTime - startTime);
 
-        // Update response time tracking
         this.updateResponseTimeTracking(responseTime);
 
         this.#isOnline.set(true);
@@ -282,8 +277,7 @@ export class ConnectivityService {
   private shouldTryHttpFallback(): boolean {
     // Only try HTTP fallbacks in development or if we're not on HTTPS
     return window.location.protocol === 'http:' ||
-      window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1';
+      window.location.hostname === 'localhost'
   }
 
   updateResponseTimeTracking(responseTime: number): void {
@@ -372,22 +366,5 @@ export class ConnectivityService {
 
     // Default to HTTPS/443 for most endpoints
     return { protocol: 'HTTPS', port: '443' };
-  }
-
-  // Get environment information for debugging
-  getEnvironmentInfo(): {
-    protocol: string;
-    hostname: string;
-    isHttps: boolean;
-    isLocalhost: boolean;
-    supportsHttpFallback: boolean;
-  } {
-    return {
-      protocol: window.location.protocol,
-      hostname: window.location.hostname,
-      isHttps: window.location.protocol === 'https:',
-      isLocalhost: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1',
-      supportsHttpFallback: this.shouldTryHttpFallback()
-    };
   }
 }

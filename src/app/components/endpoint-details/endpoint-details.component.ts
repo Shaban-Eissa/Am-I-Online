@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConnectivityService, ConnectivityEndpoint } from '../../services/connectivity.service';
 
