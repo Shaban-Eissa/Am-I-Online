@@ -142,8 +142,8 @@ curl -I http://edge-http.microsoft.com/captiveportal/generate_204 \
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd am-i-online
+   git clone https://github.com/Shaban-Eissa/Am-I-Online
+   cd Am-I-Online
    ```
 
 2. **Install dependencies**
