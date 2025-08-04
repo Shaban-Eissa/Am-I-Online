@@ -1,336 +1,822 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<div class="min-h-screen bg-black">
+  <!-- Header -->
+  <header class="fixed top-4 left-4 right-4 z-50 md:mx-12">
+    <div
+      class="bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-2xl shadow-black/50 mx-auto px-4 py-4 flex items-center justify-between relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/5 via-white/10 to-white/5 opacity-50"
+      ></div>
+      <div
+        class="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-30"
+      ></div>
+      <div
+        class="absolute inset-0 rounded-2xl bg-gradient-to-tl from-white/5 via-transparent to-white/5 opacity-40"
+      ></div>
+      <div class="relative z-10 flex items-center justify-between w-full">
+        <div class="flex items-center gap-3">
+          <div class="relative group">
+            <img
+              src="/images/logo-white.svg"
+              class="h-10 hidden md:block transition-transform duration-300 group-hover:scale-105"
+              alt="Logo"
+            />
+            <img
+              src="/images/icon-white.svg"
+              class="h-10 md:hidden transition-transform duration-300 group-hover:scale-105"
+              alt="Logo Mobile"
+            />
+            <div
+              class="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"
+            ></div>
+          </div>
 
-<style>
-  :host {
-    --bright-blue: oklch(51.01% 0.274 263.83);
-    --electric-violet: oklch(53.18% 0.28 296.97);
-    --french-violet: oklch(47.66% 0.246 305.88);
-    --vivid-pink: oklch(69.02% 0.277 332.77);
-    --hot-red: oklch(61.42% 0.238 15.34);
-    --orange-red: oklch(63.32% 0.24 31.68);
-
-    --gray-900: oklch(19.37% 0.006 300.98);
-    --gray-700: oklch(36.98% 0.014 302.71);
-    --gray-400: oklch(70.9% 0.015 304.04);
-
-    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-      180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-      90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --pill-accent: var(--bright-blue);
-
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1 {
-    font-size: 3.125rem;
-    color: var(--gray-900);
-    font-weight: 500;
-    line-height: 100%;
-    letter-spacing: -0.125rem;
-    margin: 0;
-    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-  }
-
-  p {
-    margin: 0;
-    color: var(--gray-700);
-  }
-
-  main {
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    box-sizing: inherit;
-    position: relative;
-  }
-
-  .angular-logo {
-    max-width: 9.2rem;
-  }
-
-  .content {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 700px;
-    margin-bottom: 3rem;
-  }
-
-  .content h1 {
-    margin-top: 1.75rem;
-  }
-
-  .content p {
-    margin-top: 1.5rem;
-  }
-
-  .divider {
-    width: 1px;
-    background: var(--red-to-pink-to-purple-vertical-gradient);
-    margin-inline: 0.5rem;
-  }
-
-  .pill-group {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-  }
-
-  .pill {
-    display: flex;
-    align-items: center;
-    --pill-accent: var(--bright-blue);
-    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
-    color: var(--pill-accent);
-    padding-inline: 0.75rem;
-    padding-block: 0.375rem;
-    border-radius: 2.75rem;
-    border: 0;
-    transition: background 0.3s ease;
-    font-family: var(--inter-font);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 1.4rem;
-    letter-spacing: -0.00875rem;
-    text-decoration: none;
-  }
-
-  .pill:hover {
-    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
-  }
-
-  .pill-group .pill:nth-child(6n + 1) {
-    --pill-accent: var(--bright-blue);
-  }
-  .pill-group .pill:nth-child(6n + 2) {
-    --pill-accent: var(--french-violet);
-  }
-  .pill-group .pill:nth-child(6n + 3),
-  .pill-group .pill:nth-child(6n + 4),
-  .pill-group .pill:nth-child(6n + 5) {
-    --pill-accent: var(--hot-red);
-  }
-
-  .pill-group svg {
-    margin-inline-start: 0.25rem;
-  }
-
-  .social-links {
-    display: flex;
-    align-items: center;
-    gap: 0.73rem;
-    margin-top: 1.5rem;
-  }
-
-  .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
-  }
-
-  .social-links a:hover svg path {
-    fill: var(--gray-900);
-  }
-
-  @media screen and (max-width: 650px) {
-    .content {
-      flex-direction: column;
-      width: max-content;
-    }
-
-    .divider {
-      height: 1px;
-      width: 100%;
-      background: var(--red-to-pink-to-purple-horizontal-gradient);
-      margin-block: 1.5rem;
-    }
-  }
-</style>
-
-<main class="main">
-  <div class="content">
-    <div class="left-side">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 982 239"
-        fill="none"
-        class="angular-logo"
-      >
-        <g clip-path="url(#a)">
-          <path
-            fill="url(#b)"
-            d="M388.676 191.625h30.849L363.31 31.828h-35.758l-56.215 159.797h30.848l13.174-39.356h60.061l13.256 39.356Zm-65.461-62.675 21.602-64.311h1.227l21.602 64.311h-44.431Zm126.831-7.527v70.202h-28.23V71.839h27.002v20.374h1.392c2.782-6.71 7.2-12.028 13.255-15.956 6.056-3.927 13.584-5.89 22.503-5.89 8.264 0 15.465 1.8 21.684 5.318 6.137 3.518 10.964 8.673 14.319 15.382 3.437 6.71 5.074 14.81 4.992 24.383v76.175h-28.23v-71.92c0-8.019-2.046-14.237-6.219-18.819-4.173-4.5-9.819-6.791-17.102-6.791-4.91 0-9.328 1.063-13.174 3.272-3.846 2.128-6.792 5.237-9.001 9.328-2.046 4.009-3.191 8.918-3.191 14.728ZM589.233 239c-10.147 0-18.82-1.391-26.103-4.091-7.282-2.7-13.092-6.382-17.511-10.964-4.418-4.582-7.528-9.655-9.164-15.219l25.448-6.136c1.145 2.372 2.782 4.663 4.991 6.954 2.209 2.291 5.155 4.255 8.837 5.81 3.683 1.554 8.428 2.291 14.074 2.291 8.019 0 14.647-1.964 19.884-5.81 5.237-3.845 7.856-10.227 7.856-19.064v-22.665h-1.391c-1.473 2.946-3.601 5.892-6.383 9.001-2.782 3.109-6.464 5.645-10.965 7.691-4.582 2.046-10.228 3.109-17.101 3.109-9.165 0-17.511-2.209-25.039-6.545-7.446-4.337-13.42-10.883-17.757-19.474-4.418-8.673-6.628-19.473-6.628-32.565 0-13.091 2.21-24.301 6.628-33.383 4.419-9.082 10.311-15.955 17.839-20.7 7.528-4.746 15.874-7.037 25.039-7.037 7.037 0 12.846 1.145 17.347 3.518 4.582 2.373 8.182 5.236 10.883 8.51 2.7 3.272 4.746 6.382 6.137 9.327h1.554v-19.8h27.821v121.749c0 10.228-2.454 18.737-7.364 25.447-4.91 6.709-11.538 11.7-20.048 15.055-8.509 3.355-18.165 4.991-28.884 4.991Zm.245-71.266c5.974 0 11.047-1.473 15.302-4.337 4.173-2.945 7.446-7.118 9.573-12.519 2.21-5.482 3.274-12.027 3.274-19.637 0-7.609-1.064-14.155-3.274-19.8-2.127-5.646-5.318-10.064-9.491-13.255-4.174-3.11-9.329-4.746-15.384-4.746s-11.537 1.636-15.792 4.91c-4.173 3.272-7.365 7.772-9.492 13.418-2.128 5.727-3.191 12.191-3.191 19.392 0 7.2 1.063 13.745 3.273 19.228 2.127 5.482 5.318 9.736 9.573 12.764 4.174 3.027 9.41 4.582 15.629 4.582Zm141.56-26.51V71.839h28.23v119.786h-27.412v-21.273h-1.227c-2.7 6.709-7.119 12.191-13.338 16.446-6.137 4.255-13.747 6.382-22.748 6.382-7.855 0-14.81-1.718-20.783-5.237-5.974-3.518-10.72-8.591-14.075-15.382-3.355-6.709-5.073-14.891-5.073-24.464V71.839h28.312v71.921c0 7.609 2.046 13.664 6.219 18.083 4.173 4.5 9.655 6.709 16.365 6.709 4.173 0 8.183-.982 12.111-3.028 3.927-2.045 7.118-5.072 9.655-9.082 2.537-4.091 3.764-9.164 3.764-15.218Zm65.707-109.395v159.796h-28.23V31.828h28.23Zm44.841 162.169c-7.61 0-14.402-1.391-20.457-4.091-6.055-2.7-10.883-6.791-14.32-12.109-3.518-5.319-5.237-11.946-5.237-19.801 0-6.791 1.228-12.355 3.765-16.773 2.536-4.419 5.891-7.937 10.228-10.637 4.337-2.618 9.164-4.664 14.647-6.055 5.4-1.391 11.046-2.373 16.856-3.027 7.037-.737 12.683-1.391 17.102-1.964 4.337-.573 7.528-1.555 9.574-2.782 1.963-1.309 3.027-3.273 3.027-5.973v-.491c0-5.891-1.718-10.391-5.237-13.664-3.518-3.191-8.51-4.828-15.056-4.828-6.955 0-12.356 1.473-16.447 4.5-4.009 3.028-6.71 6.546-8.183 10.719l-26.348-3.764c2.046-7.282 5.483-13.336 10.31-18.328 4.746-4.909 10.638-8.59 17.511-11.045 6.955-2.455 14.565-3.682 22.912-3.682 5.809 0 11.537.654 17.265 2.045s10.965 3.6 15.711 6.71c4.746 3.109 8.51 7.282 11.455 12.6 2.864 5.318 4.337 11.946 4.337 19.883v80.184h-27.166v-16.446h-.9c-1.719 3.355-4.092 6.464-7.201 9.328-3.109 2.864-6.955 5.237-11.619 6.955-4.828 1.718-10.229 2.536-16.529 2.536Zm7.364-20.701c5.646 0 10.556-1.145 14.729-3.354 4.173-2.291 7.364-5.237 9.655-9.001 2.292-3.763 3.355-7.854 3.355-12.273v-14.155c-.9.737-2.373 1.391-4.5 2.046-2.128.654-4.419 1.145-7.037 1.636-2.619.491-5.155.9-7.692 1.227-2.537.328-4.746.655-6.628.901-4.173.572-8.019 1.472-11.292 2.781-3.355 1.31-5.973 3.11-7.855 5.401-1.964 2.291-2.864 5.318-2.864 8.918 0 5.237 1.882 9.164 5.728 11.782 3.682 2.782 8.51 4.091 14.401 4.091Zm64.643 18.328V71.839h27.412v19.965h1.227c2.21-6.955 5.974-12.274 11.292-16.038 5.319-3.763 11.456-5.645 18.329-5.645 1.555 0 3.355.082 5.237.163 1.964.164 3.601.328 4.91.573v25.938c-1.227-.41-3.109-.819-5.646-1.146a58.814 58.814 0 0 0-7.446-.49c-5.155 0-9.738 1.145-13.829 3.354-4.091 2.209-7.282 5.236-9.655 9.164-2.373 3.927-3.519 8.427-3.519 13.5v70.448h-28.312ZM222.077 39.192l-8.019 125.923L137.387 0l84.69 39.192Zm-53.105 162.825-57.933 33.056-57.934-33.056 11.783-28.556h92.301l11.783 28.556ZM111.039 62.675l30.357 73.803H80.681l30.358-73.803ZM7.937 165.115 0 39.192 84.69 0 7.937 165.115Z"
-          />
-          <path
-            fill="url(#c)"
-            d="M388.676 191.625h30.849L363.31 31.828h-35.758l-56.215 159.797h30.848l13.174-39.356h60.061l13.256 39.356Zm-65.461-62.675 21.602-64.311h1.227l21.602 64.311h-44.431Zm126.831-7.527v70.202h-28.23V71.839h27.002v20.374h1.392c2.782-6.71 7.2-12.028 13.255-15.956 6.056-3.927 13.584-5.89 22.503-5.89 8.264 0 15.465 1.8 21.684 5.318 6.137 3.518 10.964 8.673 14.319 15.382 3.437 6.71 5.074 14.81 4.992 24.383v76.175h-28.23v-71.92c0-8.019-2.046-14.237-6.219-18.819-4.173-4.5-9.819-6.791-17.102-6.791-4.91 0-9.328 1.063-13.174 3.272-3.846 2.128-6.792 5.237-9.001 9.328-2.046 4.009-3.191 8.918-3.191 14.728ZM589.233 239c-10.147 0-18.82-1.391-26.103-4.091-7.282-2.7-13.092-6.382-17.511-10.964-4.418-4.582-7.528-9.655-9.164-15.219l25.448-6.136c1.145 2.372 2.782 4.663 4.991 6.954 2.209 2.291 5.155 4.255 8.837 5.81 3.683 1.554 8.428 2.291 14.074 2.291 8.019 0 14.647-1.964 19.884-5.81 5.237-3.845 7.856-10.227 7.856-19.064v-22.665h-1.391c-1.473 2.946-3.601 5.892-6.383 9.001-2.782 3.109-6.464 5.645-10.965 7.691-4.582 2.046-10.228 3.109-17.101 3.109-9.165 0-17.511-2.209-25.039-6.545-7.446-4.337-13.42-10.883-17.757-19.474-4.418-8.673-6.628-19.473-6.628-32.565 0-13.091 2.21-24.301 6.628-33.383 4.419-9.082 10.311-15.955 17.839-20.7 7.528-4.746 15.874-7.037 25.039-7.037 7.037 0 12.846 1.145 17.347 3.518 4.582 2.373 8.182 5.236 10.883 8.51 2.7 3.272 4.746 6.382 6.137 9.327h1.554v-19.8h27.821v121.749c0 10.228-2.454 18.737-7.364 25.447-4.91 6.709-11.538 11.7-20.048 15.055-8.509 3.355-18.165 4.991-28.884 4.991Zm.245-71.266c5.974 0 11.047-1.473 15.302-4.337 4.173-2.945 7.446-7.118 9.573-12.519 2.21-5.482 3.274-12.027 3.274-19.637 0-7.609-1.064-14.155-3.274-19.8-2.127-5.646-5.318-10.064-9.491-13.255-4.174-3.11-9.329-4.746-15.384-4.746s-11.537 1.636-15.792 4.91c-4.173 3.272-7.365 7.772-9.492 13.418-2.128 5.727-3.191 12.191-3.191 19.392 0 7.2 1.063 13.745 3.273 19.228 2.127 5.482 5.318 9.736 9.573 12.764 4.174 3.027 9.41 4.582 15.629 4.582Zm141.56-26.51V71.839h28.23v119.786h-27.412v-21.273h-1.227c-2.7 6.709-7.119 12.191-13.338 16.446-6.137 4.255-13.747 6.382-22.748 6.382-7.855 0-14.81-1.718-20.783-5.237-5.974-3.518-10.72-8.591-14.075-15.382-3.355-6.709-5.073-14.891-5.073-24.464V71.839h28.312v71.921c0 7.609 2.046 13.664 6.219 18.083 4.173 4.5 9.655 6.709 16.365 6.709 4.173 0 8.183-.982 12.111-3.028 3.927-2.045 7.118-5.072 9.655-9.082 2.537-4.091 3.764-9.164 3.764-15.218Zm65.707-109.395v159.796h-28.23V31.828h28.23Zm44.841 162.169c-7.61 0-14.402-1.391-20.457-4.091-6.055-2.7-10.883-6.791-14.32-12.109-3.518-5.319-5.237-11.946-5.237-19.801 0-6.791 1.228-12.355 3.765-16.773 2.536-4.419 5.891-7.937 10.228-10.637 4.337-2.618 9.164-4.664 14.647-6.055 5.4-1.391 11.046-2.373 16.856-3.027 7.037-.737 12.683-1.391 17.102-1.964 4.337-.573 7.528-1.555 9.574-2.782 1.963-1.309 3.027-3.273 3.027-5.973v-.491c0-5.891-1.718-10.391-5.237-13.664-3.518-3.191-8.51-4.828-15.056-4.828-6.955 0-12.356 1.473-16.447 4.5-4.009 3.028-6.71 6.546-8.183 10.719l-26.348-3.764c2.046-7.282 5.483-13.336 10.31-18.328 4.746-4.909 10.638-8.59 17.511-11.045 6.955-2.455 14.565-3.682 22.912-3.682 5.809 0 11.537.654 17.265 2.045s10.965 3.6 15.711 6.71c4.746 3.109 8.51 7.282 11.455 12.6 2.864 5.318 4.337 11.946 4.337 19.883v80.184h-27.166v-16.446h-.9c-1.719 3.355-4.092 6.464-7.201 9.328-3.109 2.864-6.955 5.237-11.619 6.955-4.828 1.718-10.229 2.536-16.529 2.536Zm7.364-20.701c5.646 0 10.556-1.145 14.729-3.354 4.173-2.291 7.364-5.237 9.655-9.001 2.292-3.763 3.355-7.854 3.355-12.273v-14.155c-.9.737-2.373 1.391-4.5 2.046-2.128.654-4.419 1.145-7.037 1.636-2.619.491-5.155.9-7.692 1.227-2.537.328-4.746.655-6.628.901-4.173.572-8.019 1.472-11.292 2.781-3.355 1.31-5.973 3.11-7.855 5.401-1.964 2.291-2.864 5.318-2.864 8.918 0 5.237 1.882 9.164 5.728 11.782 3.682 2.782 8.51 4.091 14.401 4.091Zm64.643 18.328V71.839h27.412v19.965h1.227c2.21-6.955 5.974-12.274 11.292-16.038 5.319-3.763 11.456-5.645 18.329-5.645 1.555 0 3.355.082 5.237.163 1.964.164 3.601.328 4.91.573v25.938c-1.227-.41-3.109-.819-5.646-1.146a58.814 58.814 0 0 0-7.446-.49c-5.155 0-9.738 1.145-13.829 3.354-4.091 2.209-7.282 5.236-9.655 9.164-2.373 3.927-3.519 8.427-3.519 13.5v70.448h-28.312ZM222.077 39.192l-8.019 125.923L137.387 0l84.69 39.192Zm-53.105 162.825-57.933 33.056-57.934-33.056 11.783-28.556h92.301l11.783 28.556ZM111.039 62.675l30.357 73.803H80.681l30.358-73.803ZM7.937 165.115 0 39.192 84.69 0 7.937 165.115Z"
-          />
-        </g>
-        <defs>
-          <radialGradient
-            id="c"
-            cx="0"
-            cy="0"
-            r="1"
-            gradientTransform="rotate(118.122 171.182 60.81) scale(205.794)"
-            gradientUnits="userSpaceOnUse"
+          <div
+            class="hidden md:flex items-center gap-2 ml-4 pl-4 border-l border-white/10"
           >
-            <stop stop-color="#FF41F8" />
-            <stop offset=".707" stop-color="#FF41F8" stop-opacity=".5" />
-            <stop offset="1" stop-color="#FF41F8" stop-opacity="0" />
-          </radialGradient>
-          <linearGradient
-            id="b"
-            x1="0"
-            x2="982"
-            y1="192"
-            y2="192"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#F0060B" />
-            <stop offset="0" stop-color="#F0070C" />
-            <stop offset=".526" stop-color="#CC26D5" />
-            <stop offset="1" stop-color="#7702FF" />
-          </linearGradient>
-          <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
-        </defs>
-      </svg>
-      <h1>Hello, {{ title }}</h1>
-      <p>Congratulations! Your app is running. 🎉</p>
-    </div>
-    <div class="divider" role="separator" aria-label="Divider"></div>
-    <div class="right-side">
-      <div class="pill-group">
-        @for (item of [
-          { title: 'Explore the Docs', link: 'https://angular.dev' },
-          { title: 'Learn with Tutorials', link: 'https://angular.dev/tutorials' },
-          { title: 'CLI Docs', link: 'https://angular.dev/tools/cli' },
-          { title: 'Angular Language Service', link: 'https://angular.dev/tools/language-service' },
-          { title: 'Angular DevTools', link: 'https://angular.dev/tools/devtools' },
-        ]; track item.title) {
-          <a
-            class="pill"
-            [href]="item.link"
-            target="_blank"
-            rel="noopener"
-          >
-            <span>{{ item.title }}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="14"
-              viewBox="0 -960 960 960"
-              width="14"
-              fill="currentColor"
+            <div class="flex items-center gap-2">
+              <div
+                class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+              ></div>
+              <span class="text-white/60 text-sm font-medium">Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <nav class="hidden md:flex items-center gap-1">
+            <a
+              class="group relative px-4 py-2 text-white/80 hover:text-white font-medium rounded-lg transition-all duration-300 hover:bg-white/5"
+              href="#analytics"
             >
-              <path
-                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
-              />
+              <span class="relative z-10 flex items-center gap-2">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white/60 group-hover:text-white transition-colors"
+                >
+                  <path
+                    d="M3 3v18h18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Analytics
+              </span>
+            </a>
+
+            <a
+              class="group relative px-4 py-2 text-white/80 hover:text-white font-medium rounded-lg transition-all duration-300 hover:bg-white/5"
+              href="#endpoints"
+            >
+              <span class="relative z-10 flex items-center gap-2">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white/60 group-hover:text-white transition-colors"
+                >
+                  <path
+                    d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Endpoints
+              </span>
+            </a>
+          </nav>
+
+          <a
+            class="hidden md:group relative inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-white/10 to-white/5 hover:from-white/20 hover:to-white/10 text-white font-semibold rounded-xl transition-all duration-300 border border-white/10 hover:border-white/20 shadow-lg hover:shadow-xl backdrop-blur-sm overflow-hidden"
+            href="#status"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-green-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
+
+            <div
+              class="relative z-10 w-5 h-5 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                class="text-white"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+
+            <span class="relative z-10">Check Status</span>
+
+            <div
+              class="relative z-10 w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300"
+            >
+              <svg viewBox="0 0 24 24" fill="none" class="text-white">
+                <path
+                  d="M5 12h14M12 5l7 7-7 7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </a>
+
+          <button
+            class="md:hidden group relative p-2.5 text-white bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-300 border border-white/10 hover:border-white/20"
+          >
+            <div class="flex flex-col gap-1.5">
+              <div
+                class="w-5 h-0.5 bg-white transition-all duration-300 group-hover:bg-white/80"
+              ></div>
+              <div
+                class="w-5 h-0.5 bg-white transition-all duration-300 group-hover:bg-white/80"
+              ></div>
+              <div
+                class="w-5 h-0.5 bg-white transition-all duration-300 group-hover:bg-white/80"
+              ></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-24 pb-16 overflow-hidden rounded-b-4xl md:mx-16">
+    <div
+      class="absolute inset-0"
+      style="
+        background: radial-gradient(
+          140% 107.13% at 50% 10%,
+          transparent 37.41%,
+          #63e 69.27%,
+          #fff 100%
+        );
+      "
+    ></div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <div
+          class="inline-flex items-center px-3 py-1 mt-3 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80 mb-6"
+        >
+          Network Monitoring
+        </div>
+        <h1
+          class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+        >
+          Real-time connectivity monitoring for your applications
+        </h1>
+        <p class="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          Monitor your network connectivity, response times, and endpoint health
+          in real-time. Get instant alerts when your services go down and
+          detailed analytics to optimize performance.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            class="inline-flex items-center px-6 py-3 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors"
+            href="#status"
+          >
+            Check Status
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              class="ml-2"
+              aria-hidden="true"
+            >
+              <path d="M0 5h7" stroke="currentColor"></path>
+              <path d="M1 1l4 4-4 4" stroke="currentColor"></path>
             </svg>
           </a>
-        }
-      </div>
-      <div class="social-links">
-        <a
-          href="https://github.com/angular/angular"
-          aria-label="Github"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            alt="Github"
+          <a
+            class="inline-flex items-center px-6 py-3 border border-white/20 text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
+            href="#analytics"
           >
-            <path
-              d="M12.3047 0C5.50634 0 0 5.50942 0 12.3047C0 17.7423 3.52529 22.3535 8.41332 23.9787C9.02856 24.0946 9.25414 23.7142 9.25414 23.3871C9.25414 23.0949 9.24389 22.3207 9.23876 21.2953C5.81601 22.0377 5.09414 19.6444 5.09414 19.6444C4.53427 18.2243 3.72524 17.8449 3.72524 17.8449C2.61064 17.082 3.81137 17.0973 3.81137 17.0973C5.04697 17.1835 5.69604 18.3647 5.69604 18.3647C6.79321 20.2463 8.57636 19.7029 9.27978 19.3881C9.39052 18.5924 9.70736 18.0499 10.0591 17.7423C7.32641 17.4347 4.45429 16.3765 4.45429 11.6618C4.45429 10.3185 4.9311 9.22133 5.72065 8.36C5.58222 8.04931 5.16694 6.79833 5.82831 5.10337C5.82831 5.10337 6.85883 4.77319 9.2121 6.36459C10.1965 6.09082 11.2424 5.95546 12.2883 5.94931C13.3342 5.95546 14.3801 6.09082 15.3644 6.36459C17.7023 4.77319 18.7328 5.10337 18.7328 5.10337C19.3942 6.79833 18.9789 8.04931 18.8559 8.36C19.6403 9.22133 20.1171 10.3185 20.1171 11.6618C20.1171 16.3888 17.2409 17.4296 14.5031 17.7321C14.9338 18.1012 15.3337 18.8559 15.3337 20.0084C15.3337 21.6552 15.3183 22.978 15.3183 23.3779C15.3183 23.7009 15.5336 24.0854 16.1642 23.9623C21.0871 22.3484 24.6094 17.7341 24.6094 12.3047C24.6094 5.50942 19.0999 0 12.3047 0Z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://twitter.com/angular"
-          aria-label="Twitter"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            alt="Twitter"
-          >
-            <path
-              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
-          aria-label="Youtube"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="29"
-            height="20"
-            viewBox="0 0 29 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            alt="Youtube"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M27.4896 1.52422C27.9301 1.96749 28.2463 2.51866 28.4068 3.12258C29.0004 5.35161 29.0004 10 29.0004 10C29.0004 10 29.0004 14.6484 28.4068 16.8774C28.2463 17.4813 27.9301 18.0325 27.4896 18.4758C27.0492 18.9191 26.5 19.2389 25.8972 19.4032C23.6778 20 14.8068 20 14.8068 20C14.8068 20 5.93586 20 3.71651 19.4032C3.11363 19.2389 2.56449 18.9191 2.12405 18.4758C1.68361 18.0325 1.36732 17.4813 1.20683 16.8774C0.613281 14.6484 0.613281 10 0.613281 10C0.613281 10 0.613281 5.35161 1.20683 3.12258C1.36732 2.51866 1.68361 1.96749 2.12405 1.52422C2.56449 1.08095 3.11363 0.76113 3.71651 0.596774C5.93586 0 14.8068 0 14.8068 0C14.8068 0 23.6778 0 25.8972 0.596774C26.5 0.76113 27.0492 1.08095 27.4896 1.52422ZM19.3229 10L11.9036 5.77905V14.221L19.3229 10Z"
-            />
-          </svg>
-        </a>
+            View Analytics
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</main>
+  </section>
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+  <!-- Divider -->
+  <div class="divider-top"></div>
 
+  <!-- Status Section -->
+  <section
+    id="status"
+    class="py-16 relative overflow-hidden rounded-t-4xl md:mx-16"
+  >
+    <div
+      class="absolute inset-0"
+      style="
+        background: radial-gradient(
+          130% 130% at 50% 100%,
+          transparent 50%,
+          #63e 80%,
+          #fff 100%
+        );
+      "
+    ></div>
+    <div class="absolute inset-0"></div>
+    <div class="relative z-10">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <div
+            class="inline-flex items-center px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80 mb-4"
+          >
+            Live Status
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            Current Network Status
+          </h2>
+          <p class="text-white/80 max-w-2xl mx-auto">
+            Real-time monitoring of your network connectivity and endpoint
+            health
+          </p>
+        </div>
 
-<router-outlet />
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto">
+          <div
+            class="lg:col-span-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-white/10"
+                >
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="text-white"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-2xl font-bold text-white">Network Status</h3>
+                  <p class="text-white/60 text-sm">
+                    Real-time connectivity monitoring
+                  </p>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-white/60">Last Updated</div>
+                <div class="text-white font-medium">
+                  {{
+                    lastChecked()
+                      ? (lastChecked() | date : "shortTime")
+                      : "Never"
+                  }}
+                </div>
+              </div>
+            </div>
+            <app-connectivity-status></app-connectivity-status>
+          </div>
+
+          <div
+            class="lg:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-lg flex items-center justify-center border border-white/10"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <polyline
+                    points="12,6 12,12 16,14"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Response Time</h3>
+            </div>
+            <div class="text-center mb-6">
+              <div class="flex items-baseline justify-center gap-2 mb-3">
+                <span class="text-4xl font-bold text-white">{{
+                  responseTime() || "N/A"
+                }}</span>
+                <span class="text-white/60 text-lg">ms</span>
+              </div>
+              <div class="flex items-center justify-center gap-2 mb-2">
+                <div
+                  class="w-2 h-2 rounded-full"
+                  [ngClass]="{
+                    'bg-green-400 animate-pulse':
+                      responseTime() && responseTime()! < 100,
+                    'bg-yellow-400 animate-pulse':
+                      responseTime() &&
+                      responseTime()! >= 100 &&
+                      responseTime()! < 300,
+                    'bg-red-400 animate-pulse':
+                      responseTime() && responseTime()! >= 300
+                  }"
+                ></div>
+                <span
+                  class="text-sm font-medium"
+                  [ngClass]="{
+                    'text-green-400': responseTime() && responseTime()! < 100,
+                    'text-yellow-400':
+                      responseTime() &&
+                      responseTime()! >= 100 &&
+                      responseTime()! < 300,
+                    'text-red-400': responseTime() && responseTime()! >= 300,
+                    'text-white/60': !responseTime()
+                  }"
+                >
+                  {{
+                    responseTime() && responseTime()! < 100
+                      ? "Optimal"
+                      : responseTime() && responseTime()! < 300
+                      ? "Good"
+                      : responseTime() && responseTime()! >= 300
+                      ? "Slow"
+                      : "N/A"
+                  }}
+                </span>
+              </div>
+              <p class="text-white/60 text-sm">Current response time</p>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Min</span>
+                <span class="text-white font-medium"
+                  >{{ minResponseTime() || "N/A" }}ms</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Max</span>
+                <span class="text-white font-medium"
+                  >{{ maxResponseTime() || "N/A" }}ms</span
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="lg:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center border border-white/10"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white"
+                >
+                  <path
+                    d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Active Endpoint</h3>
+            </div>
+            <div class="text-center mb-6">
+              <div class="mb-3">
+                <span class="text-lg font-medium text-white break-all">{{
+                  currentEndpoint() || "N/A"
+                }}</span>
+              </div>
+              <div class="flex items-center justify-center gap-2 mb-3">
+                <div
+                  class="w-3 h-3 rounded-full animate-pulse"
+                  [ngClass]="{
+                    'bg-green-400': isOnline(),
+                    'bg-red-400': !isOnline()
+                  }"
+                ></div>
+                <span
+                  class="text-sm font-medium"
+                  [ngClass]="{
+                    'text-green-400': isOnline(),
+                    'text-red-400': !isOnline()
+                  }"
+                >
+                  {{ isOnline() ? "Active & Healthy" : "Connection Failed" }}
+                </span>
+              </div>
+              <p class="text-white/60 text-sm">Currently monitoring</p>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Protocol</span>
+                <span class="text-white font-medium">{{
+                  getCurrentEndpointInfo().protocol
+                }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Port</span>
+                <span class="text-white font-medium">{{
+                  getCurrentEndpointInfo().port
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg flex items-center justify-center border border-white/10"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white"
+                >
+                  <path
+                    d="M12 2v20M2 12h20"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Uptime</h3>
+            </div>
+            <div class="text-center mb-6">
+              <div class="flex items-baseline justify-center gap-2 mb-3">
+                <span class="text-4xl font-bold text-white"
+                  >{{ uptimePercentage() }}%</span
+                >
+                <span class="text-white/60 text-lg">24h</span>
+              </div>
+              <div class="w-full bg-white/10 rounded-full h-2 mb-3">
+                <div
+                  class="h-2 rounded-full transition-all duration-500"
+                  [ngClass]="{
+                    'bg-gradient-to-r from-green-500 to-blue-500':
+                      uptimePercentage() >= 99,
+                    'bg-gradient-to-r from-yellow-500 to-orange-500':
+                      uptimePercentage() >= 95 && uptimePercentage() < 99,
+                    'bg-gradient-to-r from-red-500 to-pink-500':
+                      uptimePercentage() < 95
+                  }"
+                  [style.width.%]="uptimePercentage()"
+                ></div>
+              </div>
+              <p class="text-white/60 text-sm">System availability</p>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Total Checks</span>
+                <span class="text-white font-medium">{{ totalChecks() }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Success Rate</span>
+                <span class="text-white font-medium">{{ successRate() }}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-lg flex items-center justify-center border border-white/10"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white"
+                >
+                  <path
+                    d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Quick Test</h3>
+            </div>
+            <div class="text-center mb-6">
+              <p class="text-white/60 text-sm mb-4">
+                Manually test your connection status
+              </p>
+              <button
+                class="w-full px-6 py-3 cursor-pointer text-white font-medium rounded-xl transition-all duration-300 border border-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                (click)="manualCheck()"
+                [disabled]="isChecking()"
+              >
+                <span
+                  *ngIf="isChecking()"
+                  class="flex items-center justify-center gap-2"
+                >
+                  <svg
+                    class="animate-spin w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Testing...
+                </span>
+                <span
+                  *ngIf="!isChecking()"
+                  class="flex items-center justify-center gap-2"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="text-white"
+                  >
+                    <path
+                      d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Test Now
+                </span>
+              </button>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Last Test</span>
+                <span class="text-white font-medium">{{
+                  lastChecked() ? (lastChecked() | date : "shortTime") : "Never"
+                }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Status</span>
+                <span
+                  class="font-medium"
+                  [ngClass]="{
+                    'text-green-400': isOnline(),
+                    'text-red-400': !isOnline()
+                  }"
+                >
+                  {{ isOnline() ? "Success" : "Failed" }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center border border-white/10"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-white"
+                >
+                  <path
+                    d="M3 13h2l3-9 3 9h2l3-9 3 9h2"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Network Stats</h3>
+            </div>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Total Checks</span>
+                <span class="text-white font-medium">{{ totalChecks() }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Success Rate</span>
+                <span class="text-green-400 font-medium"
+                  >{{ successRate() }}%</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Avg Response</span>
+                <span class="text-white font-medium"
+                  >{{ averageResponseTime() }}ms</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/60 text-sm">Downtime</span>
+                <span class="text-red-400 font-medium"
+                  >{{ 100 - successRate() }}%</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider-top"></div>
+
+  <!-- Analytics Section -->
+  <section id="analytics" class="py-16 relative overflow-hidden rounded-t-4xl md:mx-16">
+    <div
+      class="absolute inset-0"
+      style="
+        background: radial-gradient(
+          130% 130% at 50% 100%,
+          transparent 50%,
+          #63e 80%,
+          #fff 100%
+        );
+      "
+    ></div>
+    <div class="absolute inset-0"></div>
+    <div class="relative z-10">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <div
+            class="inline-flex items-center px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80 mb-4"
+          >
+            Performance Analytics
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            Network Performance Insights
+          </h2>
+          <p class="text-white/80 max-w-2xl mx-auto">
+            Detailed analytics and performance metrics for your network
+            infrastructure
+          </p>
+        </div>
+        <app-network-stats></app-network-stats>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider-top"></div>
+
+  <!-- Endpoints Section -->
+  <section
+    id="endpoints"
+    class="py-16 relative overflow-hidden rounded-b-4xl md:mx-16"
+  >
+    <div
+      class="absolute inset-0"
+      style="
+        background: radial-gradient(
+          140% 107.13% at 50% 10%,
+          transparent 37.41%,
+          #63e 69.27%,
+          #fff 100%
+        );
+      "
+    ></div>
+    <div class="absolute inset-0"></div>
+    <div class="relative z-10">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <div
+            class="inline-flex items-center px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80 mb-4"
+          >
+            Endpoint Management
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            Monitor Your Endpoints
+          </h2>
+          <p class="text-white/80 max-w-2xl mx-auto">
+            Configure and monitor the health of your critical service endpoints
+          </p>
+        </div>
+        <app-endpoint-details></app-endpoint-details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black/50 border-t border-white/10 md:mx-12">
+    <div class="container mx-auto px-4 py-8">
+      <div
+        class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6"
+      >
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-4"
+        >
+          <div class="text-center md:text-left">
+            <p class="text-white/60 text-sm mb-1">
+              © 2025 Am I Online? Demo • Network Monitoring Application
+            </p>
+            <p class="text-white/40 text-xs">
+              Built with ❤️ using Angular 19, Signals, and modern web
+              technologies
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <a
+              href="#status"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                class="text-white"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  fill="currentColor"
+                />
+              </svg>
+              Check Status
+            </a>
+            <a
+              href="https://github.com/"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                class="text-white"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

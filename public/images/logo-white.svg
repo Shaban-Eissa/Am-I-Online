@@ -1,0 +1,6 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M8 8C12.4183 8 16 11.5817 16 16C16 20.4183 12.4183 24 8 24C3.58172 24 0 20.4183 0 16C0 11.5817 3.58172 8 8 8ZM6 18L3 15L4.41 13.59L6 15.17L11.59 9.59L13 11L6 18Z"
+        fill="white" />
+    <text x="24" y="22" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="white">Am I Online</text>
+</svg>
