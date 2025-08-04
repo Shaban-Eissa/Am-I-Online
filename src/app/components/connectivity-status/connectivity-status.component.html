@@ -67,89 +67,9 @@
   </div>
 
   <!-- Quick Stats Grid -->
-  <div class="grid grid-cols-3 gap-4">
-    <div class="bg-white/5 rounded-lg p-4 text-center">
-      <div
-        class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center mx-auto mb-2"
-      >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="text-white"
-        >
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-            fill="currentColor"
-          />
-        </svg>
-      </div>
-      <div class="text-lg font-semibold text-white">{{ totalChecks() }}</div>
-      <div class="text-white/60 text-xs">Total Checks</div>
-    </div>
-
-    <div class="bg-white/5 rounded-lg p-4 text-center">
-      <div
-        class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center mx-auto mb-2"
-      >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="text-white"
-        >
-          <path
-            d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </div>
-      <div class="text-lg font-semibold text-white">
-        {{ uptimePercentage() }}%
-      </div>
-      <div class="text-white/60 text-xs">Uptime</div>
-    </div>
-
-    <div class="bg-white/5 rounded-lg p-4 text-center">
-      <div
-        class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center mx-auto mb-2"
-      >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="text-white"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <polyline
-            points="12,6 12,12 16,14"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-      </div>
-      <div class="text-lg font-semibold text-white">
-        {{ averageResponseTime() || "N/A"
-        }}<span class="text-xs font-normal">ms</span>
-      </div>
-      <div class="text-white/60 text-xs">Avg Response</div>
-    </div>
-  </div>
 
   <!-- Additional Real-time Stats -->
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-2 gap-4 ">
     <div class="bg-white/5 rounded-lg p-4">
       <div class="flex items-center justify-between mb-2">
         <span class="text-white/60 text-sm">Current Response</span>
