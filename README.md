@@ -169,6 +169,7 @@ curl -I http://edge-http.microsoft.com/captiveportal/generate_204 \
 
 ## Acknowledgments 🙏
 
+- **Primary Inspiration**: This project was inspired by Anton Zhiyanov's excellent article ["Am I online?"](https://antonz.org/is-online/) which explores reliable internet connectivity detection techniques using HTTP-based endpoints
 - Built with [Angular](https://angular.dev/)
 - Connectivity checking techniques inspired by major tech companies (Google, Cloudflare, Microsoft)
 - Speed testing inspired by [Speedtest.net](https://www.speedtest.net/)
