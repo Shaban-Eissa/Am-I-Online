@@ -148,7 +148,7 @@
       </div>
       <div class="space-y-4 relative z-10">
         <div
-          *ngFor="let record of connectionHistory()"
+          *ngFor="let record of connectionHistorySignal()"
           class="flex items-center justify-between p-4 rounded-xl shadow-md transition-all duration-300 bg-white/5"
         >
           <div class="flex items-center gap-4">
@@ -245,9 +245,7 @@
       </div>
 
       <!-- Stats -->
-      <div
-        class="grid grid-cols-3 gap-6 mt-8 pt-6 border-t border-white/10"
-      >
+      <div class="grid grid-cols-3 gap-6 mt-8 pt-6 border-t border-white/10">
         <div class="text-center">
           <div class="text-xl font-bold text-blue-300">
             {{ averageResponseTime() || "N/A" }}ms

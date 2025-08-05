@@ -31,7 +31,7 @@ export interface ConnectionRecord {
 export class ConnectivityService {
 
   // Configuration for different connectivity endpoints
-  #endpoints: ConnectivityEndpoint[] = [
+  private endpoints: ConnectivityEndpoint[] = [
     {
       name: 'Google',
       url: 'https://google.com/generate_204',
@@ -71,7 +71,7 @@ export class ConnectivityService {
   ];
 
   // Fallback HTTP endpoints for environments that don't support HTTPS
-  #fallbackEndpoints: ConnectivityEndpoint[] = [
+  private fallbackEndpoints: ConnectivityEndpoint[] = [
     {
       name: 'Google (HTTP)',
       url: 'http://google.com/generate_204',
@@ -110,104 +110,125 @@ export class ConnectivityService {
     }
   ];
 
-  #isOnline = signal<boolean>(navigator.onLine);
-  #lastChecked = signal<Date | null>(null);
-  #responseTime = signal<number | null>(null);
-  #currentEndpoint = signal<string | null>(null);
-  #error = signal<string | null>(null);
-  #isChecking = signal<boolean>(false);
-  #totalChecks = signal<number>(0);
-  #successfulChecks = signal<number>(0);
-  #connectionHistory = signal<ConnectionRecord[]>([]);
-  #minResponseTime = signal<number | null>(null);
-  #maxResponseTime = signal<number | null>(null);
+  private isOnlineSignal = signal<boolean>(navigator.onLine);
+  private lastCheckedSignal = signal<Date | null>(null);
+  private responseTimeSignal = signal<number | null>(null);
+  private currentEndpointSignal = signal<string | null>(null);
+  private errorSignal = signal<string | null>(null);
+  private isCheckingSignal = signal<boolean>(false);
+  private totalChecksSignal = signal<number>(0);
+  private successfulChecksSignal = signal<number>(0);
+  private connectionHistorySignal = signal<ConnectionRecord[]>([]);
+  private minResponseTimeSignal = signal<number | null>(null);
+  private maxResponseTimeSignal = signal<number | null>(null);
 
   // Public signals
-  readonly isOnline = this.#isOnline.asReadonly();
-  readonly lastChecked = this.#lastChecked.asReadonly();
-  readonly responseTime = this.#responseTime.asReadonly();
-  readonly currentEndpoint = this.#currentEndpoint.asReadonly();
-  readonly error = this.#error.asReadonly();
-  readonly isChecking = this.#isChecking.asReadonly();
-  readonly totalChecks = this.#totalChecks.asReadonly();
-  readonly successfulChecks = this.#successfulChecks.asReadonly();
-  readonly connectionHistory = this.#connectionHistory.asReadonly();
-  readonly minResponseTime = this.#minResponseTime.asReadonly();
-  readonly maxResponseTime = this.#maxResponseTime.asReadonly();
+  readonly isOnline = this.isOnlineSignal.asReadonly();
+  readonly lastChecked = this.lastCheckedSignal.asReadonly();
+  readonly responseTime = this.responseTimeSignal.asReadonly();
+  readonly currentEndpoint = this.currentEndpointSignal.asReadonly();
+  readonly error = this.errorSignal.asReadonly();
+  readonly isChecking = this.isCheckingSignal.asReadonly();
+  readonly totalChecks = this.totalChecksSignal.asReadonly();
+  readonly successfulChecks = this.successfulChecksSignal.asReadonly();
+  readonly connectionHistory = this.connectionHistorySignal.asReadonly();
+  readonly minResponseTime = this.minResponseTimeSignal.asReadonly();
+  readonly maxResponseTime = this.maxResponseTimeSignal.asReadonly();
 
   readonly uptimePercentage = computed(() => {
-    const total = this.#totalChecks();
-    const successful = this.#successfulChecks();
+    const total = this.totalChecksSignal();
+    const successful = this.successfulChecksSignal();
     return total > 0 ? Math.round((successful / total) * 100) : 0;
   });
 
   readonly successRate = computed(() => {
-    const total = this.#totalChecks();
-    const successful = this.#successfulChecks();
+    const total = this.totalChecksSignal();
+    const successful = this.successfulChecksSignal();
     return total > 0 ? Math.round((successful / total) * 100) : 0;
   });
 
   readonly averageResponseTime = computed(() => {
-    const onlineRecords = this.#connectionHistory().filter(r => r.isOnline && r.responseTime);
+    const onlineRecords = this.connectionHistorySignal().filter(r => r.isOnline && r.responseTime);
     if (onlineRecords.length === 0) return 0;
     const total = onlineRecords.reduce((sum, r) => sum + (r.responseTime || 0), 0);
     return Math.round(total / onlineRecords.length);
   });
 
   readonly status = computed(() => ({
-    isOnline: this.#isOnline(),
-    lastChecked: this.#lastChecked(),
-    responseTime: this.#responseTime(),
-    endpoint: this.#currentEndpoint(),
-    error: this.#error()
+    isOnline: this.isOnlineSignal(),
+    lastChecked: this.lastCheckedSignal(),
+    responseTime: this.responseTimeSignal(),
+    endpoint: this.currentEndpointSignal(),
+    error: this.errorSignal()
   }));
 
   constructor() {
     // Listen to browser's online/offline events
-    window.addEventListener('online', () => this.#isOnline.set(true));
-    window.addEventListener('offline', () => this.#isOnline.set(false));
+    window.addEventListener('online', () => this.isOnlineSignal.set(true));
+    window.addEventListener('offline', () => this.isOnlineSignal.set(false));
 
     // Set up periodic connectivity checks
     this.setupPeriodicChecks();
   }
 
   setupPeriodicChecks(): void {
-    // Check every 30 seconds
+    // Check every 30 seconds, but only if not already checking
     const checkInterval$ = timer(0, 30000);
 
     checkInterval$.subscribe(() => {
-      this.checkConnectivity();
+      // Only start a new check if we're not already checking
+      if (!this.isCheckingSignal()) this.checkConnectivity();
     });
   }
 
   async checkConnectivity(): Promise<ConnectivityStatus> {
-    this.#isChecking.set(true);
-    this.#error.set(null);
-    this.#totalChecks.update(count => count + 1);
+    // Prevent multiple simultaneous checks
+    if (this.isCheckingSignal()) {
+      return {
+        isOnline: this.isOnlineSignal(),
+        lastChecked: this.lastCheckedSignal(),
+        responseTime: this.responseTimeSignal(),
+        endpoint: this.currentEndpointSignal(),
+        error: this.errorSignal() ?? undefined
+      };
+    }
+
+    this.isCheckingSignal.set(true);
+    this.errorSignal.set(null);
 
     const startTime = performance.now();
 
     // First try HTTPS endpoints
-    const httpsResult = await this.tryEndpoints(this.#endpoints, startTime);
+    const httpsResult = await this.tryEndpoints(this.endpoints, startTime);
     if (httpsResult.isOnline) {
+      this.totalChecksSignal.update(count => {
+        return count + 1;
+      });
+      this.isCheckingSignal.set(false);
       return httpsResult;
     }
 
     // If HTTPS endpoints failed, try HTTP fallbacks (only in development or if explicitly allowed)
     if (this.shouldTryHttpFallback()) {
-      console.log('HTTPS endpoints failed, trying HTTP fallbacks...');
-      const httpResult = await this.tryEndpoints(this.#fallbackEndpoints, startTime);
+      const httpResult = await this.tryEndpoints(this.fallbackEndpoints, startTime);
       if (httpResult.isOnline) {
+        this.totalChecksSignal.update(count => {
+          return count + 1;
+        });
+        this.isCheckingSignal.set(false);
         return httpResult;
       }
     }
 
     // If all endpoints failed
-    this.#isOnline.set(false);
-    this.#lastChecked.set(new Date());
-    this.#responseTime.set(null);
-    this.#error.set('All connectivity endpoints failed');
-    this.#isChecking.set(false);
+    this.isOnlineSignal.set(false);
+    this.lastCheckedSignal.set(new Date());
+    this.responseTimeSignal.set(null);
+    this.errorSignal.set('All connectivity endpoints failed');
+    this.totalChecksSignal.update(count => {
+      return count + 1;
+    });
+    this.isCheckingSignal.set(false);
 
     // Add failed connection to history
     this.addToHistory({
@@ -230,7 +251,7 @@ export class ConnectivityService {
   private async tryEndpoints(endpoints: ConnectivityEndpoint[], startTime: number): Promise<ConnectivityStatus> {
     for (const endpoint of endpoints) {
       try {
-        this.#currentEndpoint.set(endpoint.name);
+        this.currentEndpointSignal.set(endpoint.name);
 
         const response = await this.checkEndpoint(endpoint);
         const endTime = performance.now();
@@ -238,11 +259,10 @@ export class ConnectivityService {
 
         this.updateResponseTimeTracking(responseTime);
 
-        this.#isOnline.set(true);
-        this.#lastChecked.set(new Date());
-        this.#responseTime.set(responseTime);
-        this.#successfulChecks.update(count => count + 1);
-        this.#isChecking.set(false);
+        this.isOnlineSignal.set(true);
+        this.lastCheckedSignal.set(new Date());
+        this.responseTimeSignal.set(responseTime);
+        this.successfulChecksSignal.update(count => count + 1);
 
         // Add to connection history
         this.addToHistory({
@@ -260,7 +280,6 @@ export class ConnectivityService {
         };
 
       } catch (error) {
-        console.warn(`Failed to connect to ${endpoint.name}:`, error);
         continue;
       }
     }
@@ -282,7 +301,7 @@ export class ConnectivityService {
 
   updateResponseTimeTracking(responseTime: number): void {
     // Update min response time
-    this.#minResponseTime.update(current => {
+    this.minResponseTimeSignal.update(current => {
       if (current === null || responseTime < current) {
         return responseTime;
       }
@@ -290,7 +309,7 @@ export class ConnectivityService {
     });
 
     // Update max response time
-    this.#maxResponseTime.update(current => {
+    this.maxResponseTimeSignal.update(current => {
       if (current === null || responseTime > current) {
         return responseTime;
       }
@@ -299,7 +318,7 @@ export class ConnectivityService {
   }
 
   addToHistory(record: ConnectionRecord): void {
-    this.#connectionHistory.update(history => {
+    this.connectionHistorySignal.update(history => {
       const newHistory = [...history, record];
       // Keep only last 100 records to prevent memory issues
       return newHistory.slice(-100);
@@ -341,22 +360,22 @@ export class ConnectivityService {
   // Get available endpoints for UI display
   getEndpoints(): ConnectivityEndpoint[] {
     // Return HTTPS endpoints by default for production
-    return [...this.#endpoints];
+    return [...this.endpoints];
   }
 
   // Get recent connection history (last 10 records)
   getRecentHistory(): ConnectionRecord[] {
-    return this.#connectionHistory().slice(-10).reverse();
+    return this.connectionHistorySignal().slice(-10).reverse();
   }
 
   // Get current protocol and port info
   getCurrentEndpointInfo(): { protocol: string; port: string } {
-    const current = this.#currentEndpoint();
+    const current = this.currentEndpointSignal();
     if (!current) return { protocol: 'N/A', port: 'N/A' };
 
     // Check if current endpoint is from HTTPS or HTTP list
-    const isHttpsEndpoint = this.#endpoints.some(ep => ep.name === current);
-    const isHttpEndpoint = this.#fallbackEndpoints.some(ep => ep.name === current);
+    const isHttpsEndpoint = this.endpoints.some(ep => ep.name === current);
+    const isHttpEndpoint = this.fallbackEndpoints.some(ep => ep.name === current);
 
     if (isHttpsEndpoint) {
       return { protocol: 'HTTPS', port: '443' };

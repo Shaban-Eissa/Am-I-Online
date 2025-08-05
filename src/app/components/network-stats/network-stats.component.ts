@@ -1,13 +1,6 @@
-import { Component, inject, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConnectivityService } from '../../services/connectivity.service';
-
-interface ConnectionRecord {
-  timestamp: Date;
-  isOnline: boolean;
-  responseTime: number | null;
-  endpoint: string | null;
-}
 
 interface PerformanceBar {
   height: number;
@@ -23,39 +16,21 @@ interface PerformanceBar {
   templateUrl: './network-stats.component.html'
 })
 export class NetworkStatsComponent {
-  #connectivityService = inject(ConnectivityService);
+  private connectivityService = inject(ConnectivityService);
 
-  #connectionHistory = signal<ConnectionRecord[]>([]);
-  #totalChecks = signal<number>(0);
-  #successfulChecks = signal<number>(0);
-
-  readonly uptimePercentage = computed(() => {
-    const total = this.#totalChecks();
-    const successful = this.#successfulChecks();
-    return total > 0 ? Math.round((successful / total) * 100) : 0;
-  });
-
-  readonly averageResponseTime = computed(() => {
-    const onlineRecords = this.#connectionHistory().filter(r => r.isOnline && r.responseTime);
-    if (onlineRecords.length === 0) return 0;
-    const total = onlineRecords.reduce((sum, r) => sum + (r.responseTime || 0), 0);
-    return Math.round(total / onlineRecords.length);
-  });
-
-  readonly totalChecks = this.#totalChecks.asReadonly();
+  readonly uptimePercentage = this.connectivityService.uptimePercentage;
+  readonly averageResponseTime = this.connectivityService.averageResponseTime;
+  readonly totalChecks = this.connectivityService.totalChecks;
+  readonly successfulChecks = this.connectivityService.successfulChecks;
 
   readonly currentStatus = computed(() => {
-    return this.#connectivityService.isOnline() ? 'Online' : 'Offline';
+    return this.connectivityService.isOnline() ? 'Online' : 'Offline';
   });
 
-  readonly successRate = computed(() => {
-    const total = this.#totalChecks();
-    const successful = this.#successfulChecks();
-    return total > 0 ? Math.round((successful / total) * 100) : 0;
-  });
+  readonly successRate = this.connectivityService.successRate;
 
-  readonly connectionHistory = computed(() => {
-    return this.#connectionHistory().slice(-10).reverse().map(record => ({
+  readonly connectionHistorySignal = computed(() => {
+    return this.connectivityService.connectionHistory().slice(-10).reverse().map(record => ({
       timestamp: record.timestamp,
       status: record.isOnline ? 'online' : 'offline',
       responseTime: record.responseTime
@@ -63,7 +38,7 @@ export class NetworkStatsComponent {
   });
 
   readonly performanceData = computed((): PerformanceBar[] => {
-    const history = this.#connectionHistory().slice(-6);
+    const history = this.connectivityService.connectionHistory().slice(-6);
     return history.map((record, index) => {
       const height = record.responseTime ? Math.min(100, Math.max(10, 100 - (record.responseTime / 10))) : 10;
       const color = record.responseTime
@@ -83,48 +58,29 @@ export class NetworkStatsComponent {
   });
 
   readonly recentConnections = computed(() => {
-    return this.#connectionHistory().slice(-10).reverse();
+    return this.connectivityService.connectionHistory().slice(-10).reverse();
   });
 
   readonly responseTimeHistory = computed(() => {
-    return this.#connectionHistory()
+    return this.connectivityService.connectionHistory()
       .filter(r => r.isOnline && r.responseTime)
       .slice(-20)
       .map(r => r.responseTime || 0);
   });
 
   readonly peakResponseTime = computed(() => {
-    const responseTimes = this.#connectionHistory()
+    const responseTimes = this.connectivityService.connectionHistory()
       .filter(r => r.isOnline && r.responseTime)
       .map(r => r.responseTime || 0);
     return responseTimes.length > 0 ? Math.max(...responseTimes) : 0;
   });
 
   readonly minResponseTime = computed(() => {
-    const responseTimes = this.#connectionHistory()
+    const responseTimes = this.connectivityService.connectionHistory()
       .filter(r => r.isOnline && r.responseTime)
       .map(r => r.responseTime || 0);
     return responseTimes.length > 0 ? Math.min(...responseTimes) : 0;
   });
-
-  constructor() {
-    effect(() => {
-      const status = this.#connectivityService.status();
-      const record: ConnectionRecord = {
-        timestamp: new Date(),
-        isOnline: status.isOnline,
-        responseTime: status.responseTime,
-        endpoint: status.endpoint
-      };
-
-      this.#connectionHistory.update(history => [...history, record]);
-      this.#totalChecks.update(count => count + 1);
-
-      if (status.isOnline) {
-        this.#successfulChecks.update(count => count + 1);
-      }
-    });
-  }
 
   getBarHeight(responseTime: number): number {
     // Normalize response time to percentage (0-100ms = 100%, 1000ms+ = 10%)

@@ -10,8 +10,8 @@ import { ConnectivityService, ConnectivityEndpoint } from '../../services/connec
   templateUrl: './endpoint-details.component.html'
 })
 export class EndpointDetailsComponent {
-  #connectivityService = inject(ConnectivityService);
+  private connectivityService = inject(ConnectivityService);
 
-  readonly endpoints = computed(() => this.#connectivityService.getEndpoints());
-  readonly currentEndpoint = this.#connectivityService.currentEndpoint;
+  readonly endpoints = computed(() => this.connectivityService.getEndpoints());
+  readonly currentEndpoint = this.connectivityService.currentEndpoint;
 }
